@@ -1,0 +1,73 @@
+﻿title: Begin
+position: -177,-112
+---
+<<GameStart>>
+// declare all the variables
+<<declare $character_id = 1>>
+<<declare $character_name = "">>
+<<declare $visited_num = 0>>
+
+<<SwitchScene MainScene>>
+
+故事开始
+blablabla的背景介绍
+
+你从卧室里醒来
+<<jump Bedroom>>
+
+===
+
+title: Bedroom
+position: 46,26
+---
+<<SwitchScene Bedroom>>
+
+<<if SomeoneDiedYesterday()>>
+    昨天有人挂了
+<<else>>
+    昨天是个平安夜
+<<endif>>
+
+-> 离开卧室
+    <<jump Hallway>>
+===
+
+title: Hallway
+position: 48,234
+---
+<<SwitchScene Hallway>>
+// hallway is just a choice, we might change this to C# script control later
+// if there is still unused characters
+<<declare $i = "aaa">>
+门口响起一阵敲门声
+-> 前往门口查看 <<if UnusedCharacterCount() > 0>>
+    <<declare $question = "Character_" + format_invariant(1) + "_Question">>
+    <<jump {$question}>>
+-> 前往房间 {$i}
+-> 去睡觉
+    <<jump DayEnd>>
+===
+
+title: DayEnd
+position: 49,482
+---
+睡觉
+<<DayEnd>>
+<<if DaysRemain() > 0>>
+    <<jump Bedroom>>
+<<else>>
+    <<jump GameEnd>>
+<<endif>>
+===
+
+title: GameEnd
+---
+Game end
+===
+
+title: Character_Load
+---
+<<set $character_name to format_invariant($character_id)>>
+here2
+<<return>>
+===
