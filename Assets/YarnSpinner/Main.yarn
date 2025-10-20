@@ -1,4 +1,4 @@
-﻿title: Begin
+﻿title: Start
 position: -177,-112
 ---
 <<GameStart>>
@@ -7,8 +7,11 @@ position: -177,-112
 <<declare $character_name = "">>
 <<declare $visited_num = 0>>
 
-<<SwitchScene MainScene>>
+<<SwitchScene Main>>
+===
 
+title: Main
+---
 故事开始
 blablabla的背景介绍
 

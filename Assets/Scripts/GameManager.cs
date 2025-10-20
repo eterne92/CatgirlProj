@@ -16,7 +16,7 @@ public class GameManager
             if (m_GameManager == null)
             {
                 m_GameManager = new GameManager();
-                gameObject = new GameObject("_gameObj");
+                gameObject = GameObject.Find("GameManager");
                 // add to not destroy
                 Object.DontDestroyOnLoad(gameObject);
             }
@@ -32,11 +32,7 @@ public class GameManager
         {
             if (m_CharacterManager == null)
             {
-                Object characterManagerPrefab = Resources.Load("Prefabs/CharacterManagerPrefab");
-
-                GameObject.Instantiate(characterManagerPrefab, gameObject.transform);
-
-                m_CharacterManager = gameObject.GetComponentInChildren<CharacterManager>();
+                m_CharacterManager = gameObject.GetComponent<CharacterManager>();
                 m_CharacterManager.enabled = true;
             }
             return m_CharacterManager;
@@ -50,11 +46,7 @@ public class GameManager
         {
             if (m_SceneManager == null)
             {
-                Object characterManagerPrefab = Resources.Load("Prefabs/SceneManagerPrefab");
-
-                GameObject.Instantiate(characterManagerPrefab, gameObject.transform);
-
-                m_SceneManager = gameObject.GetComponentInChildren<SceneManager>();
+                m_SceneManager = gameObject.GetComponent<SceneManager>();
                 m_SceneManager.enabled = true;
             }
             return m_SceneManager;
