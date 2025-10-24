@@ -18,6 +18,7 @@ public class PressableButton : BasicUIView, IPointerEnterHandler, IPointerExitHa
     public UnityEvent PointerExited;
     protected Vector2 OgSize;
     protected State state = State.idle;
+    bool used = false;
     public enum State
     {
         idle,
@@ -35,6 +36,26 @@ public class PressableButton : BasicUIView, IPointerEnterHandler, IPointerExitHa
         buttonImage.SetTimeScaled(false);
     }
 
+    private void Start()
+    {
+        ChangeStateToIdle();
+    }
+
+    private void OnDisable()
+    {
+        ChangeStateToIdle();
+        used = true;
+    }
+
+    private void OnEnable()
+    {
+        if (used)
+        {
+            Debug.Log("Used");
+            ChangeStateToIdle();
+        }
+        
+    }
 
     protected void OnPointerEntered()
     {

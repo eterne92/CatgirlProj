@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Yarn.Unity;
 
 public class SceneManager : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class SceneManager : MonoBehaviour
     Canvas[] SceneCanvas;
     [SerializeField]
     string[] SceneNames;
+    [SerializeField]
+    DialogueRunner dialogueRunner;
+
+    int currentScene = -1;
 
   
     public void SwitchScene(string SceneName)
@@ -18,7 +23,12 @@ public class SceneManager : MonoBehaviour
         {
             if (SceneNames[i] == SceneName)
             {
-                ShowCanvas(i);
+                // do not switch if we are already there
+                if (currentScene != i)
+                {
+                    ShowCanvas(i);
+                }
+                break;
             }
         }
 
@@ -29,9 +39,17 @@ public class SceneManager : MonoBehaviour
     {
         foreach (var canvas in SceneCanvas)
         {
-            canvas.enabled = false;
+            canvas.GetComponent<CanvasAlphaController>().Hide(0);
         }
 
-        SceneCanvas[scene].enabled = true;
+        SceneCanvas[scene].GetComponent<CanvasAlphaController>().Show(0.3f);
+        currentScene = scene;
+    }
+
+
+    // Main Scene
+    public void MainSeceneGameStart()
+    {
+        dialogueRunner.StartDialogue("Main");
     }
 }
