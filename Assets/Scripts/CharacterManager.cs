@@ -1,12 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterManager : MonoBehaviour
 {
-    public int currentCharacter;
-    public string currentCharacterName;
+    [SerializeField]
+    GameDataManager.CharacterInfo[] characters;
+    [SerializeField]
+    Sprite[] sprites;
 
+    [SerializeField]
+    Image avatar;
+
+    int currentCharacter;
     public void Init()
     {
     }
@@ -15,30 +23,27 @@ public class CharacterManager : MonoBehaviour
     {
         Debug.Log("Loading Character: " + id);
         currentCharacter = id;
-        currentCharacterName = id.ToString();
+        characters[id].used = true;
+        avatar.sprite = sprites[currentCharacter];
     }
 
     public string GetCurrentCharacterName()
     {
-        return currentCharacterName;
+        return GetCharacterInfo(currentCharacter).name;
+    }
+
+    public string GetCharacterName(int id)
+    {
+        return GetCharacterInfo(id).name;
     }
 
     public GameDataManager.CharacterInfo GetCharacterInfo(int id)
     {
-        GameDataManager.CharacterInfo info = new GameDataManager.CharacterInfo();
-        info.name = currentCharacterName;
-        info.room = "Room 1";
-        info.infected = false;
-        return info;
+        return characters[id];
     }
 
-    public void SetEmotion(string Emotion)
+    public GameDataManager.CharacterInfo[] GetCharacterInfos()
     {
-        Debug.Log("Setting Emotion: " + Emotion);
-    }
-
-    public void ShowAvatar()
-    {
-        Debug.Log("Showing Avatar for " + currentCharacterName);
+        return characters;
     }
 }

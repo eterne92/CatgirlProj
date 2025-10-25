@@ -1,0 +1,73 @@
+﻿title: Start
+position: -177,-112
+---
+<<GameStart>>
+// declare all the variables
+<<declare $character_id = 0>>
+<<declare $character_name = "">>
+<<declare $visited_num = 0>>
+
+<<SwitchScene Main>>
+===
+
+title: Main
+---
+<<SwitchScene Bedroom>>
+故事开始
+blablabla的背景介绍aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+你从卧室里醒来
+<<jump Bedroom>>
+
+===
+
+title: Bedroom
+position: 46,26
+---
+<<SwitchScene Bedroom>>
+
+<<if SomeoneDiedYesterday()>>
+    昨天有人挂了
+<<else>>
+    昨天是个平安夜
+<<endif>>
+
+-> 离开卧室
+    <<jump Hallway>>
+===
+
+title: Hallway
+position: 48,234
+---
+<<SwitchScene Hallway>>
+<<if UnusedCharacterCount() > 0>>
+    门口响起一阵敲门声
+<<endif>>
+===
+
+title:Sleep
+---
+<<SwitchScene Bedroom>>
+睡觉
+描述一下这一天
+<<DayEnd>>
+<<SwitchScene BlackScene>>
+<<wait 1>>
+<<jump Bedroom>>
+===
+
+title: GameEnd
+---
+Game end
+1
+1
+1
+<<SwitchScene Main>>
+===
+
+title: Character_Load
+---
+<<LoadCharacter {$character_id}>>
+<<set $character_name to GetCharacterName($character_id)>>
+<<return>>
+===

@@ -38,23 +38,18 @@ public class YarnExporter
         GameManager.Instance.CharacterManager.LoadCharacter(id);
     }
 
-    [YarnCommand("ShowAvatar")]
-    public static void SaveCharacter()
-    {
-        GameManager.Instance.CharacterManager.ShowAvatar();
-    }
-
-    [YarnCommand("Emotion")]
-    public static void Emotion(string emotion)
-    {
-        GameManager.Instance.CharacterManager.SetEmotion(emotion);
-    }
-
     [YarnCommand("AddCharacter")]
     public static void AddCharacter(int id)
     {
         GameManager.Instance.GameDataManager.AddCharacter(id);
     }
+
+    [YarnCommand("SendawayCharacter")]
+    public static void SendawayCharacter(int id)
+    {
+        GameManager.Instance.GameDataManager.SendawayCharacter(id);
+    }
+
 
 
     [YarnFunction("SomeoneDiedYesterday")]
@@ -73,6 +68,12 @@ public class YarnExporter
     public static int DaysRemain()
     {
         return GameManager.Instance.GameDataManager.DaysRemain();
+    }
+
+    [YarnFunction("GetCharacterName")]
+    public static string GetCharacterName(int id)
+    {
+        return GameManager.Instance.CharacterManager.GetCharacterName(id);
     }
 
 

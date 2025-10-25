@@ -51,7 +51,6 @@ public class PressableButton : BasicUIView, IPointerEnterHandler, IPointerExitHa
     {
         if (used)
         {
-            Debug.Log("Used");
             ChangeStateToIdle();
         }
         

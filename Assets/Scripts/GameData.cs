@@ -1,15 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameDataManager
 {
+    [Serializable]
     public class CharacterInfo
     {
         public string name;
         public string room;
         public bool infected;
-        public bool alive;
+        public bool alive = true;
+        public bool stay = false;
+        public bool used = false;
     }
 
     int totalDays;
@@ -17,11 +21,9 @@ public class GameDataManager
     int currentDay;
     public bool someoneDiedYesterday { get; set; }
 
-    List<CharacterInfo> characterList;
 
     public void Init()
     {
-        characterList = new List<CharacterInfo>();
         totalDays = 3;
         totalCharacters = totalDays;    // as for now, we have the same amount of characterss as days
         currentDay = 0;
@@ -33,13 +35,19 @@ public class GameDataManager
         currentDay++;
         // check if someone is dead
         someoneDiedYesterday = false;
-        for (int i = 0; i < characterList.Count; i++)
+        CharacterInfo[] characterList = GameManager.Instance.CharacterManager.GetCharacterInfos();
+        for (int i = 0; i < characterList.Length; i++)
         {
-            if (characterList[i].alive && characterList[i].infected && Random.Range(0, 100) < 10)
+            if (characterList[i].alive && characterList[i].stay && characterList[i].infected && UnityEngine.Random.Range(0, 100) < 10)
             {
                 characterList[i].alive = false;
                 someoneDiedYesterday = true;
             }
+        }
+
+        if(currentDay >= totalDays)
+        {
+            GameManager.Instance.SceneManager.GameEnd();
         }
     }
 
@@ -52,9 +60,10 @@ public class GameDataManager
     public int CharacterAlive()
     {
         int count = 0;
-        for (int i = 0; i < characterList.Count; i++)
+        CharacterInfo[] characterList = GameManager.Instance.CharacterManager.GetCharacterInfos();
+        for (int i = 0; i < characterList.Length; i++)
         {
-            if (characterList[i].alive)
+            if (characterList[i].alive && characterList[i].stay)
             {
                 count++;
             }
@@ -65,11 +74,24 @@ public class GameDataManager
     // how many characters are left
     public int UnusedCharacters()
     {
-        return totalCharacters - characterList.Count;
+        int count = 0;
+        CharacterInfo[] characterList = GameManager.Instance.CharacterManager.GetCharacterInfos();
+        for (int i = 0; i < characterList.Length; i++)
+        {
+            if (characterList[i].used == false)
+            {
+                count++;
+            }
+        }
+        return count;
     }
 
     public void AddCharacter(int id)
     {
-        characterList.Add(GameManager.Instance.CharacterManager.GetCharacterInfo(id));
+        GameManager.Instance.CharacterManager.GetCharacterInfo(id).stay = true;
+    }
+    public void SendawayCharacter(int id)
+    {
+        GameManager.Instance.CharacterManager.GetCharacterInfo(id).stay = false;
     }
 }

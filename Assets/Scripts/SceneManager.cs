@@ -13,6 +13,11 @@ public class SceneManager : MonoBehaviour
     [SerializeField]
     DialogueRunner dialogueRunner;
 
+    [SerializeField]
+    PressableButton[] roomButtonsForHallway;
+    [SerializeField]
+    PressableButton roomButtonsForDoorway;
+
     int currentScene = -1;
 
   
@@ -33,6 +38,10 @@ public class SceneManager : MonoBehaviour
         }
 
         // Special treatment
+        if(SceneName == "Hallway")
+        {
+            StartHallwayScene();
+        }
     }
 
     void ShowCanvas(int scene)
@@ -52,4 +61,46 @@ public class SceneManager : MonoBehaviour
     {
         dialogueRunner.StartDialogue("Main");
     }
+
+    // Hallway Scene
+    public void StartHallwayScene()
+    {
+        dialogueRunner.Stop();
+        var characterInfos = GameManager.Instance.CharacterManager.GetCharacterInfos();
+        for (int i = 0; i < characterInfos.Length; i++)
+        {
+            roomButtonsForHallway[i].DoAlphaTween(characterInfos[i].stay?1:0, 0);
+        }
+
+        //roomButtonsForDoorway.gameObject.SetActive(GameManager.Instance.GameDataManager.UnusedCharacters() > 0);
+        roomButtonsForDoorway.DoAlphaTween(GameManager.Instance.GameDataManager.UnusedCharacters() > 0 ? 1: 0, 0);
+    }
+    public void GotoGuestRoom(int id)
+    {
+        dialogueRunner.StartDialogue("Character_" + id + "_Chat");
+    }
+    public void GotoDoorway()
+    {
+        var characterInfos = GameManager.Instance.CharacterManager.GetCharacterInfos();
+        for (int i = 0; i < characterInfos.Length; i++)
+        {
+            if (characterInfos[i].used == false)
+            {
+                dialogueRunner.StartDialogue("Character_" + i + "_Question");
+                break;
+            }
+        }
+    }
+    public void GotoSleep()
+    {
+        dialogueRunner.StartDialogue("Sleep");
+    }
+
+    public void GameEnd()
+    {
+        dialogueRunner.Stop();
+        dialogueRunner.StartDialogue("GameEnd");
+    }
+
+
 }

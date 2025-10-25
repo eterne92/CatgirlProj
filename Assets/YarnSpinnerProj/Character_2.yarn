@@ -1,0 +1,90 @@
+﻿title: Character_2_Question
+---
+<<SwitchScene Doorway>>
+<<set $character_id to 2>>
+// do load character
+<<detour Character_Load>>
+<<set $visited_num to 0>>
+
+{$character_name} :你好。这里很安静。坏东西的声音，走远了。你和我一样，是同类…能让我进去吗？待在外面，不喜欢。
+<<jump Character_2_RealQuestions>>
+===
+
+title: Character_2_RealQuestions
+---
+// reset emotion to neutral
+// Real Questions
+->太阳是什么颜色？
+    {$character_name}:…■■，刺眼，很暖和。但是，这里看不到。
+    <<once>>
+    // this is for control option
+    <<set $visited_num to $visited_num + 1>>
+    <<endonce>>
+    <<jump Character_2_RealQuestions>>
+->你很冷？
+    {$character_name}:衣服，不暖和。■■进来，家毁了，逃跑...
+    <<once>>
+    // this is for control option
+    <<set $visited_num to $visited_num + 1>>
+    <<endonce>>
+    <<jump Character_2_RealQuestions>>
+->昨天吃了什么？
+    {$character_name}:在找到这里之前，没有吃■■。但是，会累。
+    <<once>>
+    // this is for control option
+    <<set $visited_num to $visited_num + 1>>
+    <<endonce>>
+    <<jump Character_2_RealQuestions>>
+->进来休息吧<<if $visited_num >= 3>>
+    进来休息的描述
+    <<AddCharacter id {$character_id}>>
+->很抱歉不行<<if $visited_num >= 3>>
+    走掉的描述
+    <<SendawayCharacter {$character_id}>>
+<<SwitchScene Hallway>>
+===
+
+
+title: Character_2_Chat
+---
+<<SwitchScene Guestroom>>
+<<set $character_id to 0>>
+// do load character
+<<detour Character_Load>>
+<<set $visited_num to 0>>
+
+{$character_name} :谢谢。这里，很暖和。很久…没有这么安静了。
+<<jump Character_2_RealChat>>
+===
+
+title: Character_2_RealChat
+---
+// reset emotion to neutral
+// Real Chat
+->你的过去？
+    {$character_name}:围墙，花园，士兵...黑色的雪，牠来了，士兵拦不住。大家，变成■■■■■。只有我，还在说话。
+    <<once>>
+    // this is for control option
+    <<set $visited_num to $visited_num + 1>>
+    <<endonce>>
+    <<jump Character_2_RealChat>>
+->你的能力？
+    {$character_name}:可以，让■■安静。但也会，引来牠们。绘梨衣，不是故意的。
+    <<once>>
+    // this is for control option
+    <<set $visited_num to $visited_num + 1>>
+    <<endonce>>
+    <<jump Character_2_RealChat>>
+->未来打算？
+    {$character_name}:想留下。帮你，让这里更安静。
+    <<once>>
+    // this is for control option
+    <<set $visited_num to $visited_num + 1>>
+    <<endonce>>
+    <<jump Character_2_RealChat>>
+->给爷滚<<if $visited_num >= 3>>
+    走掉的描述
+    <<SendawayCharacter {$character_id}>>
+    <<SwitchScene Hallway>>
+
+===
