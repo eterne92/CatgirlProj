@@ -99,6 +99,7 @@ public class GameDataManager
         GameManager.Instance.CharacterManager.GetCharacterInfo(id).stay = true;
         // not let player visit her today
         GameManager.Instance.CharacterManager.GetCharacterInfo(id).visitedToday = true;
+        GameManager.Instance.CharacterManager.GetCharacterInfo(id).firstGuestChat = true;
     }
     public void SendawayCharacter(int id)
     {
