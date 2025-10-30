@@ -22,6 +22,7 @@ public class GameDataManager
     int totalCharacters;
     int currentDay;
     public bool someoneDiedYesterday { get; set; }
+    public int diedId { get; set; }
 
 
     public void Init()
@@ -41,10 +42,13 @@ public class GameDataManager
         CharacterInfo[] characterList = GameManager.Instance.CharacterManager.GetCharacterInfos();
         for (int i = 0; i < characterList.Length; i++)
         {
-            if (characterList[i].alive && characterList[i].stay && characterList[i].infected && UnityEngine.Random.Range(0, 100) < 10)
+            if (characterList[i].alive && characterList[i].stay && characterList[i].infected && UnityEngine.Random.Range(0, 100) < 50)
             {
                 characterList[i].alive = false;
                 someoneDiedYesterday = true;
+                // only let one person die
+                diedId = i;
+                break;
             }
         }
 

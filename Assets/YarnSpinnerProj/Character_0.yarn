@@ -36,10 +36,8 @@ title: Character_0_RealQuestions
     <<endonce>>
     <<jump Character_0_RealQuestions>>
 ->进来休息吧<<if $visited_num >= 3>>
-    进来休息的描述
     <<AddCharacter {$character_id}>>
 ->很抱歉不行<<if $visited_num >= 3>>
-    走掉的描述
     <<SendawayCharacter {$character_id}>>
 <<SwitchScene Hallway>>
 ===
@@ -83,9 +81,7 @@ title: Character_0_RealChat
     <<endonce>>
     <<jump Character_0_RealChat>>
 ->摸摸头<<if $visited_num >= 3>>
-    她回去了
 ->让他离开<<if $visited_num >= 3>>
-    走掉的描述
     <<SendawayCharacter {$character_id}>>
 
 <<jump Hallway>>

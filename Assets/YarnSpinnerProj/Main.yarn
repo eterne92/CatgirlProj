@@ -13,10 +13,10 @@ position: -177,-112
 title: Main
 ---
 <<SwitchScene Bedroom>>
-故事开始
-blablabla的背景介绍aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-
-你从卧室里醒来
+又一个平安的夜晚过去，围着温暖的壁炉篝火长谈的时光总是很短。
+旧房客留在上一重的历史，而新的历史即将被书写。
+渴望创造奇迹的漫长过往仿佛已被遗忘，我沉迷于庇护冰原的旅者，倾听他们的故事。
+星期一到了，该去迎接新的旅者了。
 <<jump Bedroom>>
 
 ===
@@ -27,7 +27,12 @@ position: 46,26
 <<SwitchScene Bedroom>>
 
 <<if SomeoneDiedYesterday()>>
-    昨天有人死了
+<<endif>>
+<<if GetDiedId() == 1>>
+渴望归乡的战士终究没有跑赢苍白的追猎。她的色彩已然失落，仅剩少许纯白覆雪。
+<<endif>>
+<<if GetDiedId() == 2>>
+没有人能窥视冰原风雪的秘密，即使是你也不行。她已付出触犯禁忌的代价。
 <<endif>>
 
 -> 离开卧室
@@ -64,4 +69,9 @@ title: Character_Load
 <<LoadCharacter {$character_id}>>
 <<set $character_name to GetCharacterName($character_id)>>
 <<return>>
+===
+
+title: Died
+---
+房间内的房客已经死去
 ===

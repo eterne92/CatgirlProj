@@ -75,6 +75,11 @@ public class YarnExporter
     {
         return GameManager.Instance.CharacterManager.GetCharacterName(id);
     }
+    [YarnFunction("GetDiedId")]
+    public static int GetDiedId()
+    {
+        return GameManager.Instance.GameDataManager.diedId;
+    }
 
 
 }

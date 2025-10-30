@@ -75,7 +75,9 @@ public class SceneManager : MonoBehaviour
     bool ShouldVisitGuest(int id)
     {
         var characterInfos = GameManager.Instance.CharacterManager.GetCharacterInfos();
-        return characterInfos[id].stay && !characterInfos[id].visitedToday;
+        bool justDied = id == GameManager.Instance.GameDataManager.diedId;
+        bool alive = characterInfos[id].alive;
+        return characterInfos[id].stay && !characterInfos[id].visitedToday && (alive || justDied);
     }
     public void StartHallwayScene()
     {
@@ -92,7 +94,11 @@ public class SceneManager : MonoBehaviour
     {
         var characterInfos = GameManager.Instance.CharacterManager.GetCharacterInfos();
         characterInfos[id].visitedToday = true;
-        if (characterInfos[id].firstGuestChat)
+        if (!characterInfos[id].alive)
+        {
+            dialogueRunner.StartDialogue("Died");
+        }
+        else if (characterInfos[id].firstGuestChat)
         {
             characterInfos[id].firstGuestChat = false;
             dialogueRunner.StartDialogue("Character_" + id + "_Chat");
