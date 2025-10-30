@@ -6,7 +6,7 @@
 <<detour Character_Load>>
 <<set $visited_num to 0>>
 
-{$character_name} :你好。这里很安静。坏东西的声音，走远了。你和我一样，是同类…能让我进去吗？待在外面，不喜欢。
+{$character_name} :你好呀！我是芙蕾雅，独立调查员！你的旅馆在环境读数上显示为异常安全区，这太有趣了！能让我进来研究一下吗？我会付钱的！
 <<jump Character_2_RealQuestions>>
 ===
 
@@ -14,32 +14,30 @@ title: Character_2_RealQuestions
 ---
 // reset emotion to neutral
 // Real Questions
-->太阳是什么颜色？
-    {$character_name}:…■■，刺眼，很暖和。但是，这里看不到。
+->研究什么？<<if $visited_num < 3>>
+    {$character_name}:一切异常现象！特别是那些会让人产生认知偏差的■■...我收集了一些很棒的样本哦，你要看一眼吗？
     <<once>>
     // this is for control option
     <<set $visited_num to $visited_num + 1>>
     <<endonce>>
     <<jump Character_2_RealQuestions>>
-->你很冷？
-    {$character_name}:衣服，不暖和。■■进来，家毁了，逃跑...
+->不怕危险？<<if $visited_num < 3>>
+    {$character_name}:危险？那只是尚未被理解的数据啦！而且我的■■■可灵敏了，能提前感知到不对劲。
     <<once>>
     // this is for control option
     <<set $visited_num to $visited_num + 1>>
     <<endonce>>
     <<jump Character_2_RealQuestions>>
-->昨天吃了什么？
-    {$character_name}:在找到这里之前，没有吃■■。但是，会累。
+->有同伴吗？<<if $visited_num < 3>>
+    {$character_name}:上一个同伴...现在在这个瓶子里了。虽然很伤心，但科学总要付出代价的嘛！
     <<once>>
     // this is for control option
     <<set $visited_num to $visited_num + 1>>
     <<endonce>>
     <<jump Character_2_RealQuestions>>
-->进来休息吧<<if $visited_num >= 3>>
-    进来休息的描述
-    <<AddCharacter id {$character_id}>>
-->很抱歉不行<<if $visited_num >= 3>>
-    走掉的描述
+->希望你不会招来麻烦<<if $visited_num >= 3>>
+    <<AddCharacter {$character_id}>>
+->这里不收调查员<<if $visited_num >= 3>>
     <<SendawayCharacter {$character_id}>>
 <<SwitchScene Hallway>>
 ===
@@ -48,12 +46,12 @@ title: Character_2_RealQuestions
 title: Character_2_Chat
 ---
 <<SwitchScene Guestroom>>
-<<set $character_id to 0>>
+<<set $character_id to 2>>
 // do load character
 <<detour Character_Load>>
 <<set $visited_num to 0>>
 
-{$character_name} :谢谢。这里，很暖和。很久…没有这么安静了。
+{$character_name} :谢谢你让我在这里做实验，我的研究进展超顺利！这个■■有着某种可以中和冰原的影响的■■，我正在研究。 
 <<jump Character_2_RealChat>>
 ===
 
@@ -61,30 +59,50 @@ title: Character_2_RealChat
 ---
 // reset emotion to neutral
 // Real Chat
-->你的过去？
-    {$character_name}:围墙，花园，士兵...黑色的雪，牠来了，士兵拦不住。大家，变成■■■■■。只有我，还在说话。
+->以前做过什么？<<if $visited_num < 3>>
+    {$character_name}:在好多地方探险吧。我最喜欢记录大家认知错乱时的反应了，超有趣的，这可是超级稀有的黑历史！
     <<once>>
     // this is for control option
     <<set $visited_num to $visited_num + 1>>
     <<endonce>>
     <<jump Character_2_RealChat>>
-->你的能力？
-    {$character_name}:可以，让■■安静。但也会，引来牠们。绘梨衣，不是故意的。
+->现在研究什么？<<if $visited_num < 3>>
+    {$character_name}:正在尝试制作能让■■显形的试剂。不过我上次试用时桌子开始跳舞了...
     <<once>>
     // this is for control option
     <<set $visited_num to $visited_num + 1>>
     <<endonce>>
     <<jump Character_2_RealChat>>
-->未来打算？
-    {$character_name}:想留下。帮你，让这里更安静。
+->你不害怕吗？<<if $visited_num < 3>>
+    {$character_name}:刚开始有点怕，但想到能第一个发现真相，就兴奋得睡不着觉！
     <<once>>
     // this is for control option
     <<set $visited_num to $visited_num + 1>>
     <<endonce>>
     <<jump Character_2_RealChat>>
-->给爷滚<<if $visited_num >= 3>>
-    走掉的描述
-    <<SendawayCharacter {$character_id}>>
-    <<SwitchScene Hallway>>
+->晚上不许打扰其他人<<if $visited_num >= 3>>
+->让她离开旅馆<<if $visited_num >= 3>>
+    {$character_name}: 好吧...我知道我的实验有时候会出点■■■。但那些数据真的很重要！我会在附近继续研究的。如果你改变主意了，随时都能找到我。
+    ->执意让她离开
+        <<SendawayCharacter {$character_id}>>
+    ->放弃
 
+<<jump Hallway>>
+===
+
+title: Character_2_NormalChat
+---
+<<SwitchScene Guestroom>>
+<<set $character_id to 2>>
+// do load character
+<<detour Character_Load>>
+<<set $visited_num to 0>>
+
+{$character_name}: 啊！你、你来得正好！这个绝对不是什么危险的■■■，只是...呃...一个会发光的装饰品。对，装饰品！
+->敲敲她的脑袋
+    <<SwitchScene BlackScene>>
+    <<wait 0.5>>
+->让她离开
+    <<SendawayCharacter {$character_id}>>
+<<jump Hallway>>
 ===

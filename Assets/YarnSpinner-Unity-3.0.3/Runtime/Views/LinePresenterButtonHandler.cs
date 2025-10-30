@@ -24,6 +24,7 @@ namespace Yarn.Unity
 
         [MustNotBeNullWhen(nameof(continueButton), "A " + nameof(DialogueRunner) + " must be provided for the continue button to work.")]
         [SerializeField] DialogueRunner? dialogueRunner;
+        [SerializeField] TextMeshProUGUI text;
 
         void Start()
         {
@@ -54,8 +55,15 @@ namespace Yarn.Unity
                     Debug.LogWarning($"Continue button was clicked, but {nameof(dialogueRunner)} is null!", this);
                     return;
                 }
+                if(text.maxVisibleCharacters == text.text.Length)
+                {
+                    dialogueRunner.RequestNextLine();
+                }
+                else
+                {
+                    text.maxVisibleCharacters = text.text.Length;
+                }
 
-                dialogueRunner.RequestNextLine();
             });
         }
 

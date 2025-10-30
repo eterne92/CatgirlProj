@@ -27,9 +27,7 @@ position: 46,26
 <<SwitchScene Bedroom>>
 
 <<if SomeoneDiedYesterday()>>
-    昨天有人挂了
-<<else>>
-    昨天是个平安夜
+    昨天有人死了
 <<endif>>
 
 -> 离开卧室
@@ -48,8 +46,7 @@ position: 48,234
 title:Sleep
 ---
 <<SwitchScene Bedroom>>
-睡觉
-描述一下这一天
+你闭上双眼，沉沉睡去
 <<DayEnd>>
 <<SwitchScene BlackScene>>
 <<wait 1>>
@@ -58,10 +55,7 @@ title:Sleep
 
 title: GameEnd
 ---
-Game end
-1
-1
-1
+一个时间循环结束，我们感谢您的游玩，愿您也能找见庇护心灵的居所。
 <<SwitchScene Main>>
 ===
 

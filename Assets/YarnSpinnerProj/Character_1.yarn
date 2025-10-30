@@ -6,7 +6,7 @@
 <<detour Character_Load>>
 <<set $visited_num to 0>>
 
-{$character_name} :你好。这里很安静。坏东西的声音，走远了。你和我一样，是同类…能让我进去吗？待在外面，不喜欢。
+{$character_name} :此地的‘秩序’和安宁真令人惊讶。玛莎在上，以艾希莉娅·■■和永夏密林之名，我请求获得您的庇护。
 <<jump Character_1_RealQuestions>>
 ===
 
@@ -14,32 +14,30 @@ title: Character_1_RealQuestions
 ---
 // reset emotion to neutral
 // Real Questions
-->太阳是什么颜色？
-    {$character_name}:…■■，刺眼，很暖和。但是，这里看不到。
+->太阳是什么颜色？<<if $visited_num < 3>>
+    {$character_name}:金色。但在此地，它苍白如雪。
     <<once>>
     // this is for control option
     <<set $visited_num to $visited_num + 1>>
     <<endonce>>
     <<jump Character_1_RealQuestions>>
-->你很冷？
-    {$character_name}:衣服，不暖和。■■进来，家毁了，逃跑...
+->有遇到其他人吗？<<if $visited_num < 3>>
+    {$character_name}:很多，全靠■■的帮助，我才支撑到此刻。
     <<once>>
     // this is for control option
     <<set $visited_num to $visited_num + 1>>
     <<endonce>>
     <<jump Character_1_RealQuestions>>
-->昨天吃了什么？
-    {$character_name}:在找到这里之前，没有吃■■。但是，会累。
+->不怕这里是危险的巢穴？<<if $visited_num < 3>>
+    {$character_name}:■■本身即是最大的扭曲之地，您这里的异常还比不过■■上的无尽暴雪。
     <<once>>
     // this is for control option
     <<set $visited_num to $visited_num + 1>>
     <<endonce>>
     <<jump Character_1_RealQuestions>>
-->进来休息吧<<if $visited_num >= 3>>
-    进来休息的描述
+->进来吧，屋里更温暖<<if $visited_num >= 3>>
     <<AddCharacter {$character_id}>>
-->很抱歉不行<<if $visited_num >= 3>>
-    走掉的描述
+->不行，你太危险了<<if $visited_num >= 3>>
     <<SendawayCharacter {$character_id}>>
 <<SwitchScene Hallway>>
 ===
@@ -48,12 +46,12 @@ title: Character_1_RealQuestions
 title: Character_1_Chat
 ---
 <<SwitchScene Guestroom>>
-<<set $character_id to 0>>
+<<set $character_id to 1>>
 // do load character
 <<detour Character_Load>>
 <<set $visited_num to 0>>
 
-{$character_name} :谢谢。这里，很暖和。很久…没有这么安静了。
+{$character_name} :您的领域，比我想象的更加强大。这份庇护之情，我铭记于心。如果我能成功穿越冰原，必会在您需要之时伸出援手。
 <<jump Character_1_RealChat>>
 ===
 
@@ -61,32 +59,49 @@ title: Character_1_RealChat
 ---
 // reset emotion to neutral
 // Real Chat
-->你的过去？
-    {$character_name}:围墙，花园，士兵...黑色的雪，牠来了，士兵拦不住。大家，变成■■■■■。只有我，还在说话。
+->你想去哪里？<<if $visited_num < 3>>
+    {$character_name}:我所在的骑士团，在远征中不幸遭遇■■。我们的回忆逐渐消散，很多人的存在被抹去。我须在被遗忘追上之前，返回翡翠的怀抱。
     <<once>>
     // this is for control option
     <<set $visited_num to $visited_num + 1>>
     <<endonce>>
     <<jump Character_1_RealChat>>
-->你的能力？
-    {$character_name}:可以，让■■安静。但也会，引来牠们。绘梨衣，不是故意的。
+->你在怕什么？<<if $visited_num < 3>>
+    {$character_name}:怕在抵达前，连■■■■这个故乡的名字，都被这片白色吞噬。
     <<once>>
     // this is for control option
     <<set $visited_num to $visited_num + 1>>
     <<endonce>>
     <<jump Character_1_RealChat>>
-->未来打算？
-    {$character_name}:想留下。帮你，让这里更安静。
+->为何不放弃？<<if $visited_num < 3>>
+    {$character_name}:若连我都停下，那些在苍白中凝固的灵魂，将永远失去归途。
     <<once>>
     // this is for control option
     <<set $visited_num to $visited_num + 1>>
     <<endonce>>
     <<jump Character_1_RealChat>>
-->离开房间<<if $visited_num >= 3>>
-    她回去了
-->给爷滚<<if $visited_num >= 3>>
-    走掉的描述
-    <<SendawayCharacter {$character_id}>>
+->晚安，好好休息<<if $visited_num >= 3>>
+->让她离开旅馆<<if $visited_num >= 3>>
+    {$character_name}: 感谢您的庇护，这段短暂的安宁时光弥足珍贵。现在，我确实该踏上归途了。
+    ->执意让她离开
+        <<SendawayCharacter {$character_id}>>
+    ->放弃
+<<jump Hallway>>
+===
 
+title: Character_1_NormalChat
+---
+<<SwitchScene Guestroom>>
+<<set $character_id to 1>>
+// do load character
+<<detour Character_Load>>
+<<set $visited_num to 0>>
+
+{$character_name} :这里的窗户很奇特，能将致命的暴风雪……映照得如同静止的画卷。
+->请她喝杯热咖啡
+    <<SwitchScene BlackScene>>
+    <<wait 0.5>>
+->让她离开
+    <<SendawayCharacter {$character_id}>>
 <<jump Hallway>>
 ===

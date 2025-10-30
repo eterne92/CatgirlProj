@@ -20,7 +20,10 @@ public class SceneManager : MonoBehaviour
 
     int currentScene = -1;
 
-  
+    private bool doorOpenedToday = false;
+
+    public bool DoorOpenedToday { get => doorOpenedToday; set => doorOpenedToday = value; }
+
     public void SwitchScene(string SceneName)
     {
         Debug.Log("Switching to " + SceneName);
@@ -63,21 +66,41 @@ public class SceneManager : MonoBehaviour
     }
 
     // Hallway Scene
+    bool ShouldOpenDoor()
+    {
+        bool characterUnused = GameManager.Instance.GameDataManager.UnusedCharacters() > 0;
+        return characterUnused && !doorOpenedToday;
+    }
+
+    bool ShouldVisitGuest(int id)
+    {
+        var characterInfos = GameManager.Instance.CharacterManager.GetCharacterInfos();
+        return characterInfos[id].stay && !characterInfos[id].visitedToday;
+    }
     public void StartHallwayScene()
     {
         dialogueRunner.Stop();
         var characterInfos = GameManager.Instance.CharacterManager.GetCharacterInfos();
         for (int i = 0; i < characterInfos.Length; i++)
         {
-            roomButtonsForHallway[i].DoAlphaTween(characterInfos[i].stay?1:0, 0);
+            roomButtonsForHallway[i].DoAlphaTween(ShouldVisitGuest(i) ? 1 : 0, 0);
         }
 
-        //roomButtonsForDoorway.gameObject.SetActive(GameManager.Instance.GameDataManager.UnusedCharacters() > 0);
-        roomButtonsForDoorway.DoAlphaTween(GameManager.Instance.GameDataManager.UnusedCharacters() > 0 ? 1: 0, 0);
+        roomButtonsForDoorway.DoAlphaTween(ShouldOpenDoor() ? 1 : 0, 0);
     }
     public void GotoGuestRoom(int id)
     {
-        dialogueRunner.StartDialogue("Character_" + id + "_Chat");
+        var characterInfos = GameManager.Instance.CharacterManager.GetCharacterInfos();
+        characterInfos[id].visitedToday = true;
+        if (characterInfos[id].firstGuestChat)
+        {
+            characterInfos[id].firstGuestChat = false;
+            dialogueRunner.StartDialogue("Character_" + id + "_Chat");
+        }
+        else
+        {
+            dialogueRunner.StartDialogue("Character_" + id + "_NormalChat");
+        }
     }
     public void GotoDoorway()
     {
@@ -86,6 +109,7 @@ public class SceneManager : MonoBehaviour
         {
             if (characterInfos[i].used == false)
             {
+                doorOpenedToday = true;
                 dialogueRunner.StartDialogue("Character_" + i + "_Question");
                 break;
             }

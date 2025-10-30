@@ -14,6 +14,8 @@ public class GameDataManager
         public bool alive = true;
         public bool stay = false;
         public bool used = false;
+        public bool visitedToday = false;
+        public bool firstGuestChat = true;
     }
 
     int totalDays;
@@ -24,7 +26,7 @@ public class GameDataManager
 
     public void Init()
     {
-        totalDays = 3;
+        totalDays = 7;
         totalCharacters = totalDays;    // as for now, we have the same amount of characterss as days
         currentDay = 0;
         someoneDiedYesterday = false;
@@ -33,6 +35,7 @@ public class GameDataManager
     public void DayEnd()
     {
         currentDay++;
+        GameManager.Instance.SceneManager.DoorOpenedToday = false;
         // check if someone is dead
         someoneDiedYesterday = false;
         CharacterInfo[] characterList = GameManager.Instance.CharacterManager.GetCharacterInfos();
@@ -45,7 +48,12 @@ public class GameDataManager
             }
         }
 
-        if(currentDay >= totalDays)
+        for (int i = 0; i < characterList.Length; i++)
+        {
+            characterList[i].visitedToday = false;
+        }
+
+        if(currentDay > totalDays)
         {
             GameManager.Instance.SceneManager.GameEnd();
         }
@@ -89,6 +97,8 @@ public class GameDataManager
     public void AddCharacter(int id)
     {
         GameManager.Instance.CharacterManager.GetCharacterInfo(id).stay = true;
+        // not let player visit her today
+        GameManager.Instance.CharacterManager.GetCharacterInfo(id).visitedToday = true;
     }
     public void SendawayCharacter(int id)
     {
